@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Enter Symptom</title>
+</head>
+<body>
+
+<h1>Enter Symptom</h1>
+
+<form action="/solutions/advice" method="post">
+    <label for="symptom">Symptom:</label>
+    <input type="text" id="symptom" name="symptom" required>
+    <button type="submit">Get Advice</button>
+</form>
+
+
+<script>
+    document.getElementById("populateButton").addEventListener("click", function() {
+        fetch("/populate", {
+            method: "GET"
+        })
+        .then(response => response.text())
+        .then(result => {
+            alert(result); // Display the result in an alert or on the page
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert("An error occurred while populating the database.");
+        });
+    });
+</script>
+
+</body>
+</html>

@@ -1,38 +1,44 @@
 package com.example.Project2.demo.project2;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@RestController
-@RequestMapping("/solution")
-public class SolutionsController {
-    private final SolutionsRepository solutionsRepository;
-    @Autowired
-    public SolutionsController(SolutionsRepository solutionsRepository) {
-        this.solutionsRepository = solutionsRepository;
-    }
+//@RestController
+//@RequestMapping("/solution")
+//public class SolutionsController {
+//    private final SolutionsRepository solutionsRepository;
+//    @Autowired
+//    public SolutionsController(SolutionsRepository solutionsRepository) {
+//        this.solutionsRepository = solutionsRepository;
+//    }
 
 
 
 
-    @GetMapping("/project2/{symptom}")
-    public String getAdviceForSymptom(@PathVariable String symptom) {
-        long count = 0;
-        count = solutionsRepository.count();
+    @RestController
+    @RequestMapping("/solutions")
+    public class SolutionsController {
+        @Autowired
+        private SolutionsRepository solutionsRepository;
 
-       // String symptom_str;
-        //symptom_str = symptom .toString();
-        Solutions solutions = solutionsRepository.findBySymptom(symptom);
-
-        if (solutions != null) {
-            return "\nAdvice: " + solutions.getAdvice();
-        } else {
-            return "No advice found for the provided symptom.";
+        @GetMapping
+        public String showForm() {
+            return "symptom-form"; // Return the HTML form for entering symptoms
         }
-    }
+
+        @PostMapping("/advice")
+        public String getAdviceForSymptom(@RequestParam String symptom) {
+            Solutions solutions = solutionsRepository.findBySymptom(symptom);
+
+            if (solutions != null) {
+                return "Advice: " + solutions.getAdvice();
+            } else {
+                return "No advice found for the provided symptom." + symptom;
+            }
+        }
+
+
+
     @GetMapping("/populate")
     public String populateDatabaseWithSampleData() {
 // Sample data to populate the database
