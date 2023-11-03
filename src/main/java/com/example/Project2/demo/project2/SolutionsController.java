@@ -62,6 +62,4 @@ import org.springframework.web.bind.annotation.*;
         solutionsRepository.save(solutions3);
         return "Solutions Added the provided symptoms.";
     }
-
-
 }
